@@ -13,8 +13,9 @@ public class TaskService {
    private TaskRepository taskRepository;
    
    public Task createTask(Task task){
-        task.setId(UUID.randomUUID().toString()); 
-       return taskRepository.save(task); 
+        task.setId(UUID.randomUUID().toString());
+        System.out.println("Saving task: " + task); 
+        return taskRepository.save(task); 
    }
 
    public List<Task> getTasksbyUserId(String userId){
@@ -27,6 +28,7 @@ public class TaskService {
         task.setDescription(taskDetails.getDescription());
         task.setCategory(taskDetails.getCategory());
         task.setStatus(taskDetails.getStatus());
+        System.out.println("Creating task with ID: " + task.getId());
         return taskRepository.save(task);
    }
 
