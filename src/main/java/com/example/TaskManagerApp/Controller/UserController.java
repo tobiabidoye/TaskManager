@@ -23,10 +23,6 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
    public User createUser(@RequestBody User user){ 
-        System.out.println("Received User: " + user);
-        System.out.println("Username: " + user.getUsername());
-        System.out.println("Password: " + user.getPassword());
-        System.out.println("Role: " + user.getRole());
         return userService.createUser(user);   
    }
 
