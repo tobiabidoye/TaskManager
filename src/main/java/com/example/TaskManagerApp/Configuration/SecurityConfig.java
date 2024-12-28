@@ -24,15 +24,17 @@ public class SecurityConfig {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
-    
+    @Bean    
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil, userDetailsService);
-        
+
 
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/users").permitAll()
+            .requestMatchers("/auth/register", "/auth/login").permitAll()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/users/**").hasRole("USER")
             .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
