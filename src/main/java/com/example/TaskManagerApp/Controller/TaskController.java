@@ -1,4 +1,5 @@
 package com.example.TaskManagerApp.Controller;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,12 @@ public class TaskController  {
    private TaskService taskService;
    
   @PostMapping 
-   public Task createTask(@RequestBody Task task){ 
+   public Task createTask(@RequestBody Task task, Principal principal){ 
+    String loggedInUsername = principal.getName();
+
+    if (!task.getUserId().equals(loggedInUsername)) {
+        throw new RuntimeException("User ID does not match the logged-in user");
+    }
     return taskService.createTask(task);
    }
 
